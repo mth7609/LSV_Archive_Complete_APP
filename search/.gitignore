@@ -1,0 +1,19 @@
+/node_modules/
+/experimental/
+/out/
+/backup/
+/release-builds/
+/MySQL-Data/
+/MySQL-Server-8.0/
+/MySQL Workbench 8.0 CE/
+/MySQL_Dump/
+/mysql*
+/Dataset_*
+/LSV-Archiv*
+/00100/
+/BuildPackage_Sources_Input/
+/resources/
+/locales/
+*.dll
+*.exe
+*.bin

@@ -1,0 +1,62 @@
+//################## below, worker threads
+
+const { parentPort } = require('node:worker_threads')
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ in the worker thread file
+
+parentPort.on('message', (message) => {                       //+++++++++++++++++++++++++++++ receive from main  
+    parentPort.postMessage('Hello from worker thread!');      //+++++++++++++++++++++++++++++ send to main
+    // do the thread work    
+});
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ in main for worker_thread
+
+if (isMainThread) {
+    const worker = new Worker("./SomeThread.js");            //+++++++++++++++++++++++++++++ define worker thread file
+    worker.on('message', (message) => {                      //+++++++++++++++++++++++++++++ worker waits for receivíng a message
+        console.log(message);
+    });
+    worker.postMessage("Start");                             //+++++++++++++++++++++++++++++ main send back to worker thread file
+}
+
+
+// below #################, send from main to renderer
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ in main 
+
+winMain.webContents.send('frontPage', message);  //+++++++++++++++++++++++++++++ sending with the id "frontPage" to renderer that has the receive function "getFrontPages" 
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ preload.js
+
+entry in preload.js for receiving the message in a function getfrontPages sended with the id "frontpage"
+getFrontPages: (callback) => ipcRenderer.on('frontPage', (_event, value) => callback(value)),
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ the renderer function "getFrontPages" that receives the message 
+
+window.electronAPI.getFrontPages((value) => {
+    console.log(value);
+})
+
+
+
+// below #################, send from renderer to main
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ preload.js
+someFunction: (data) => ipcRenderer.send('CMD', data)
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ define in main: receive messages from renderer
+
+ ipcMain.on('CMD', (event, data) => {
+    console.log("CMD: ", data);
+  })
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ in renderer: send messages to main
+
+window.electronAPI.someFunction("testData"); 
+
+

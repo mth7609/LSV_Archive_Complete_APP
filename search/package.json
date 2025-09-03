@@ -1,0 +1,55 @@
+{
+  "name": "lsv-archiv",
+  "version": "1.0.0",
+  "description": "Archiv der Jugendzeitschriften von der LandesSchülerVertretung",
+  "keywords": [],
+  "homepage": "mth-wangiro.de",
+  "license": "ISC",
+  "author": "Michael Thiele",
+  "type": "commonjs",
+  "main": "./main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . LSV-Archiv --overwrite --prune=false"
+  },
+  "files": [
+            "node_modules/**/*",
+            "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+            "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+        ],
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "bitfield": "^4.2.0",
+    "bootstrap": "^4.6.0",
+    "builder-util": "^26.0.11",
+    "child_process": "^1.0.2",
+    "chrome": "^0.1.0",
+    "chrome-tabs": "^5.4.0",
+    "crypto": "^1.0.1",
+    "devtool": "^2.3.1",
+    "electron-localshortcut": "^3.2.1",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-tabs": "^1.0.4",
+    "express": "^4.21.2",
+    "fs": "^0.0.1-security",
+    "git": "^0.1.5",
+    "hugo-extended": "^0.144.1",
+    "i": "^0.3.7",
+    "ipp": "^1.1.0",
+    "ipp-printer": "^1.0.0",
+    "jquery": "^3.7.1",
+    "mysql-events": "^0.0.11",
+    "mysql2": "^3.13.0",
+    "mysqldump": "^3.2.0",
+    "node-powershell": "^5.0.1",
+    "node-storage": "^0.0.9",
+    "npm": "^11.1.0",
+    "pdfkit": "^0.17.1",
+    "utf8": "^3.0.0"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "electron": "^31.7.7",
+    "electron-packager": "^17.1.2"
+  }
+}

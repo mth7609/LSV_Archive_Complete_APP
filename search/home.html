@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lsv.css">
+    <script type="module" src="./RendererScripts_01.js"></script>
+    <script type="module" src="./RendererScripts_02.js"></script>
+    <script type="module" src="./RendererScripts_03.js"></script>
+    <script type="module" src="./RendererDatasetTab.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(".confirmSaveCancel").text(localStorage.getItem("cancel"));
+        $(".confirmSaveOverwrite").text(localStorage.getItem("overwrite"));
+        $(".confirmSaveHeadline").text(localStorage.getItem("overwrite") + " " + localStorage.getItem("confirm"));
+        $(".confirmDeleteHeadline").text(localStorage.getItem("buttonDelete"));
+        $(".confirmDelete").text(localStorage.getItem("buttonDelete"));
+        $(".confirmDeleteCancel").text(localStorage.getItem("cancel"));
+        $(".messageOK").text(localStorage.getItem("okLabel"));
+    </script>
+</head>
+
+<body>
+
+    <button type="button" class="buttonMessageModal" data-bs-toggle="modal" data-bs-target=".messageModal"></button>
+    <div class="modal fade messageModal" data-bs-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 messageHeadline"></h1>
+                </div>
+                <div class="modal-body ps-3">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn messageOK selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".buttonMessageModal").hide();
+    </script>
+
+
+    <button type="button" class="buttonOpenConfirmSaveModal" data-bs-toggle="modal" data-bs-target=".confirmSaveModal"></button>
+    <div class="modal fade confirmSaveModal" data-bs-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 confirmSaveHeadline"></h1>
+                    <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body ps-3">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn confirmSaveCancel selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn confirmSaveOverwrite selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".buttonOpenConfirmSaveModal").hide();
+    </script>
+
+    <button type="button" class="buttonOpenConfirmDeleteModal" data-bs-toggle="modal" data-bs-target=".confirmDeleteModal"></button>
+    <div class="modal fade confirmDeleteModal" data-bs-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 confirmDeleteHeadline"></h1>
+                    <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body-delete ps-3">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn confirmDeleteCancel selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn confirmDelete selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".buttonOpenConfirmDeleteModal").hide();
+    </script>
+
+    <br>
+    <div class="m-1 ps-4 pt-2 position-absolute z-n2 logoImage"></div>
+    <br>
+
+    <p class="text-center fs-2 pt-3 fw-bold mainWindowHeadlineSearch"></p>
+
+    <div class="container-fluid m-0 p-0">
+        <div class="row">
+            <div class="col-lg-9 pe-0 me-0 ps-3">
+                <form method="POST" class="form-horizontal formTop mx-3 ps-4 pe-3 pt-2 border rounded-4 nobr">
+                    <div class="form-group row nobr">
+                        <div class="col-sm-4">
+                            <label for="text" class="col-form-label nameLabel headlinesTop"></label>
+                            <input type="text" class="form-control inputField name">
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="text" class="col-form-label px-1 ms-0 noLabel headlinesTop"></label>
+                            <input type="text" class="form-control ps-1 pe-1 ms-1 me-1 publishNo">
+                        </div>
+                        <div class="col-sm-1 px-0">
+                            <label for="text" class="col-form-label yearLabel headlinesTop ms-1"></label>
+                            <div class="dropdown btn-outline-primary dropdownYearStyle year">
+                                <button class="btn btn-outline-primary ms-1 p-0 buttonYearStyle dropdownYear" type="button" data-bs-toggle="dropdown">...</button>
+                                <ul class="dropdown-menu pre-scrollable years">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 ps-0">
+                            <label for="text" class="col-form-label cityLabel headlinesTop"></label>
+                            <input type="text" class="form-control inputField city">
+                        </div>
+                        <div class="col-sm-1 ps-0">
+                            <label for="text" class="col-form-label datasetNrLabel headlinesTop"></label>
+                            <input type="text" class="p-0 mx-0 form-control inputField dsNumber">
+                        </div>
+                        <div class="col-sm-1 ps-0 pe-2 m-0">
+                            <label class="col-form-label dummyLabel headlinesTop">&nbsp;</label>
+                            <input type="button" class="p-0 form-control selectButton doButtonFetch btn-outline-secondary">
+                        </div>
+                        <div class="col-sm-1 ps-1 pe-2 m-0">
+                            <label class="col-form-label dummyLabel headlinesTop">&nbsp;</label>
+                            <input type="button" class="p-0 form-control selectButton doButtonNew btn-outline-secondary">
+                        </div>
+                    </div>
+                    <div class="form-group row nobr">
+                        <div class="col-sm-4">
+                            <label for="text" class="col-form-label mx-0 schoolPublisherLabel headlinesTop"></label>
+                            <input type="text" class="form-control inputField schoolPublisher">
+                        </div>
+                        <div class="col-sm-2 publisherIs" role="group">
+                            <div class="col-sm-2 px-1 py-0">
+                                <label for="text" class="col-form-label publisherIsLabel headlinesTop">
+                                </label>
+                            </div>
+                            <div class="px-0">
+                                <input type="radio" class="btn-check selectButton schoolInput" name="btnradio1">
+                                <label class="btn p-0 btn-outline-primary schoolLabel" for="btnradio1"></label>&nbsp;&nbsp;
+                                <input type="radio" class="btn-check selectButton freeInput" name="btnradio2">
+                                <label class="btn p-0 btn-outline-primary freeLabel" for="btnradio2"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 ps-0">
+                            <label class="col-form-label stateLabel headlinesTop"></label>
+                            <div class="dropdown btn-outline-primary dropdownStateStyle state">
+                                <button class="col-sm-12 py-0 btn btn-outline-primary buttonStateStyle dropdownState" type="button" data-bs-toggle="dropdown">...</button>
+                                <ul class="dropdown-menu pre-scrollable states">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 py-0 ps-0">
+                            <label class="col-form-label headlinesTop">&nbsp;</label>
+                            <input type="button" class="p-0 form-control doButtonDatasetRemember btn-outline-secondary selectButton">
+                        </div>
+                        <div class="col-sm-1 ps-0 pe-2 m-0">
+                            <label class="col-form-label headlinesTop">&nbsp;</label>
+                            <input type="button" class="p-0 form-control doButtonDatasetSave btn-outline-secondary selectButton">
+                        </div>
+                        <div class="col-sm-1 ps-1 pe-2 m-0">
+                            <label class="col-form-label headlinesTop">&nbsp;</label>
+                            <input type="button" class="p-0 form-control doButtonDatasetDelete btn-outline-secondary selectButton">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-3 m-0 ps-0 pe-4 commentDataset">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container conBottom ms-2 me-0 ps-4 pe-2 pt-2 nobr">
+        <form method="POST" class="form-horizontal formTopics">
+            <div class="form-group row">
+                <div class="col-sm-3 w-auto pe-4">
+                    <label class="m-1 pt-1 topicHeadline_0 topicHeadline">
+                    </label>
+                    <div class="mx-1 py-0 ps-3 pe-0 topicList_0 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_3 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_3 topicList">
+                    </div>
+                </div>
+
+                <div class=" col-sm-3 w-auto pe-4">
+                    <label class="m-1 pt-2 topicHeadline_1 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_1 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_2 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_2 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_4 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_4 topicList">
+                    </div>
+                </div>
+
+                <div class=" col-sm-3 w-auto pe-4">
+                    <label class="m-1 pt-2 topicHeadline_5 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_5 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_6 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_6 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_7 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_7 topicList">
+                    </div>
+                </div>
+
+                <div class="col-sm-3 w-auto pe-0">
+                    <label class="m-1 pt-2 topicHeadline_9 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_9 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_10 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_10 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_8 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_8 topicList">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+    <div class=" m-0 p-0 position-fixed frontImage">
+    </div>
+
+    <div class="statusbar1 m-0 p-0 position-fixed status1">
+        <div class="pt-1">
+            <label class="ps-3 mx-0 statusText1">
+            </label>
+        </div>
+    </div>
+
+    <div class="statusbar2 m-0 p-0 position-fixed status2">
+        <div class="pt-1">
+            <label class="ps-3 mx-0 statusText2">
+            </label>
+        </div>
+    </div>
+
+    <div class="statusbar3 m-0 p-0 position-fixed status3">
+        <div class="pt-1">
+            <label class="ps-3 mx-0 statusText3">
+            </label>
+        </div>
+    </div>
+
+    <div class="statusbar4 m-0 p-0 position-fixed status4">
+        <div class="pt-1">
+            <label class="ps-3 mx-0 statusText4">
+            </label>
+        </div>
+    </div>
+
+    <div class="statusbar5 m-0 p-0 position-fixed status5">
+        <div class="pt-1">
+            <label class="ps-3 mx-0 statusText5">
+            </label>
+        </div>
+    </div>
+
+    <div class="statusbar6 m-0 p-0 position-fixed status5">
+        <div class="pt-1">
+            <label class="ps-3 mx-0 statusText6">
+            </label>
+        </div>
+    </div>
+
+    <br>
+</body>
+
+</html>

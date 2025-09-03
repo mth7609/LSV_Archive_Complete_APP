@@ -1,0 +1,422 @@
+body {
+    background: #d2f2fc;
+    overflow-y: auto;
+    overflow-x: hidden;
+    user-select: none
+}
+
+#logo1 {
+    left: 4em;
+    top: 8em;
+    z-index: 5;
+}
+
+.statusbar1 {
+
+    vertical-align: bottom;
+    position: fixed;
+    bottom: 0px;
+    left: 1%;
+    width: 30%;
+    padding: 0px;
+    margin: auto;
+    font-weight: bold;
+    font-size: 14px;
+    background: #c2e2ec;
+    z-index: 201;
+    border: solid 2px rgb(0, 0, 0);
+    color: #000000;
+    height: 28px;
+    text-align: left;
+}
+
+.statusbar2 {
+    vertical-align: bottom;
+    position: fixed;
+    bottom: 0px;
+    left: 30%;
+    width: 13%;
+    padding: 0px;
+    margin: auto;
+    font-weight: bold;
+    font-size: 14px;
+    background: #c2e2ec;
+    z-index: 201;
+    border: solid 2px rgb(0, 0, 0);
+    color: #000000;
+    height: 28px;
+    text-align: center;
+}
+
+.statusbar3 {
+    vertical-align: bottom;
+    position: fixed;
+    bottom: 0px;
+    left: 42%;
+    width: 13%;
+    padding: 0px;
+    margin: auto;
+    font-weight: bold;
+    font-size: 14px;
+    background: #c2e2ec;
+    z-index: 201;
+    border: solid 2px rgb(0, 0, 0);
+    color: #000000;
+    height: 28px;
+    text-align: center;
+}
+
+
+.statusbar4 {
+    vertical-align: bottom;
+    position: fixed;
+    bottom: 0px;
+    left: 54%;
+    width: 16%;
+    padding: 0px;
+    margin: auto;
+    font-weight: bold;
+    font-size: 14px;
+    background: #c2e2ec;
+    z-index: 206;
+    border: solid 2px rgb(0, 0, 0);
+    color: #000000;
+    height: 28px;
+    text-align: center;
+}
+
+
+.statusbar5 {
+    vertical-align: bottom;
+    position: fixed;
+    bottom: 0px;
+    left: 69%;
+    width: 16%;
+    padding: 0px;
+    margin: auto;
+    font-weight: bold;
+    font-size: 14px;
+    background: #c2e2ec;
+    z-index: 206;
+    border: solid 2px rgb(0, 0, 0);
+    color: #000000;
+    height: 28px;
+    text-align: center;
+}
+
+
+.statusbar6 {
+    vertical-align: bottom;
+    position: fixed;
+    bottom: 0px;
+    left: 84%;
+    right: 1%;
+    padding: 0px;
+    margin: auto;
+    font-weight: bold;
+    font-size: 14px;
+    background: #c2e2ec;
+    z-index: 204;
+    border: solid 2px rgb(0, 0, 0);
+    color: #000000;
+    height: 28px;
+    text-align: center;
+}
+
+
+.frontImage {
+    position: fixed;
+    top: 430px;
+    left: 78%;
+    right: 20px;
+    height: 620px;
+    padding: 0px;
+    z-index: 100;
+    overflow: hidden;
+    overflow-y: none;
+    text-wrap: nowrap;
+}
+
+.formTop {
+    background: #550000;
+    height: 210px;
+}
+
+.formEditing {
+    background: #dddddd !important;
+    height: 260px;
+    border: solid 6px rgb(0, 0, 0);
+}
+
+@media print {
+    .formEditing {
+        box-shadow: 0 0 0 1000px #dddddd inset !important;
+        border: solid 6px rgb(0, 0, 0);
+    }
+}
+
+.topicsFormBottom {
+    z-index: 12;
+    width: auto;
+}
+
+.headlinesTop {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.topicHeadline {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+}
+
+.mainHeadline {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+}
+
+.datasetListItems {
+    font-size: 16px;
+    color: #000000;
+}
+
+.commentDataset {
+    font-size: 16px;
+    font-weight: normal;
+    color: #eeeeee;
+    text-wrap: nowrap;
+}
+
+.topicList {
+    font-size: 16px;
+    color: #000000;
+}
+
+.topicListButton {
+    background: #056289;
+    border: solid 1px #111111;
+}
+
+.topicListButtonInput {
+    background: #660000;
+    border: solid 1px #111111;
+}
+
+.inputField {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
+}
+
+.inputFieldRemember {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
+    width: 200px;
+}
+
+.selectButtonDataset {
+    height: 30px;
+    background: #008800;
+    color: #ffffff;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+}
+
+.dialogButton {
+    height: 30px;
+    width: 100px;
+    background: #007700;
+    color: #ffffff;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+}
+
+.dialogButton:hover {
+    height: 30px;
+    background: #007700;
+    color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+    -webkit-transform: translate(0px, -1px) scale(1);
+    transform: translate(0px, -1px) scale(1);
+}
+
+.selectButton {
+    height: 30px;
+    background: #007700;
+    color: #ffffff;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+}
+
+.selectButton:hover {
+    height: 30px;
+    background: #007700;
+    color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+    -webkit-transform: translate(0px, -2px) scale(1.1);
+    transform: translate(0px, -2px) scale(1.1);
+}
+
+.schoolLabel {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+    width: 60px;
+    font-size: 16px;
+}
+
+.schoolLabel:hover {
+    background: #007700 !important;
+    color: #ffffff !important;
+    -webkit-transform: translate(0px, -1px) scale(1.1);
+    transform: translate(0px, -1px) scale(1.1);
+}
+
+.freeLabel {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+    width: 60px;
+    font-size: 16px;
+}
+
+.freeLabel:hover {
+    background: #007700 !important;
+    color: #ffffff !important;
+    -webkit-transform: translate(0px, -1px) scale(1.1);
+    transform: translate(0px, -1px) scale(1.1);
+}
+
+.dsNumber {
+    color: #000000;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+.publishNo {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+    width: 60px
+}
+
+
+.dropdownYearStyle::selection:hover {
+    background: #ff0000;
+}
+
+.dropdownYearStyle {
+    height: 30px;
+    z-index: 6;
+    width: 0px;
+}
+
+
+.dropdownStateStyle {
+    z-index: 5;
+    height: 30px;
+}
+
+
+.buttonYearStyle {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
+    width: 60px;
+}
+
+
+.buttonYearStyle:hover {
+    height: 30px;
+    background: #007700;
+    border-radius: 5px;
+}
+
+
+.buttonStateStyle {
+    background: #ffffff;
+    border: solid 0px #bbbbbb;
+    border-radius: 5px;
+    color: #000000;
+    height: 30px;
+    text-align: left;
+}
+
+
+.buttonStateStyle:hover {
+    height: 30px;
+    background: #007700;
+    border-radius: 5px;
+}
+
+
+.navtabCSS {
+    border-radius: 5px;
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+    font-weight: bold;
+    font-size: 14px;
+    height: 30px;
+    padding: 1px;
+    margin-top: 10px;
+    margin-left: 25px;
+    margin-right: 0px;
+    width: 80px;
+    border: solid 1px #bbbbbb;
+}
+
+.navtabCSS:hover {
+    background: #004400;
+    box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.4);
+    -webkit-transform: translate(0px, -2px) scale(1.1);
+    transform: translate(0px, -2px) scale(1.1);
+}
+
+
+hr {
+    color: #000000;
+    overflow: none;
+    background: #000000;
+    height: 3px;
+}
+
+.hr2 {
+    color: #000000;
+    overflow: none;
+    background: #000000;
+    height: 20px;
+    border-width: 5px;
+    display: block;
+}
+
+textarea {
+    resize: none;
+}

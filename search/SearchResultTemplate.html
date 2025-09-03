@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="./RendererDatasetTab.js"></script>
+    <link rel="stylesheet" href="lsv.css">
+</head>
+
+<script>
+    $(".printButton_SC").val(localStorage.getItem("print"));
+    $(".changeButton_SC").val(localStorage.getItem("change"));
+    $(".removeButton_SC").val(localStorage.getItem("remove"));
+    $(".editFieldLabel_SC").text(localStorage.getItem("editField"));
+    $(".editFieldLabelWhen_SC").text(localStorage.getItem("when") + ":");
+    $(".editFieldLabelWho_SC").text(localStorage.getItem("who") + ":");
+    $(".releasedButton_SC").val(localStorage.getItem("released"));
+    $(".removeReleasedButton_SC").val(localStorage.getItem("releasedRemove"));
+    updateDatasetTabContent(SC);
+</script>
+
+<body>
+    <br><br>
+    <p class="text-center fs-1 p-0 m-0 fw-bold datasetWindowHeadline_SC"></p>
+    <div class="text-center fs-1 datasetWindowSubheadline_SC">
+    </div>
+    <br><br>
+
+    <p class="text-center fs-1 fw-bold tab_SC"></p>
+
+    <div class="window_SC">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="input-group text-wrap">
+                        <div class="topDatasetItems_SC"></div>
+                    </div>
+                    <div><br>
+                        <hr><br>
+                        <form method="POST" class="form-horizontal formEditing mx-3 ps-4 pe-3 pt-2 rounded-4">
+                            <label for="text" class="col-form-label editFieldLabel_SC fw-bold"></label><br>
+                            <label for="text" class="col-form-label editFieldLabelWhen_SC fw-bold"></label>
+                            <input type="text" class="form-control inputFieldRemember inputFieldWhen_SC text-label">
+                            <label for="text" class="col-form-label editFieldLabelWho_SC fw-bold"></label>
+                            <input type="text" class="form-control inputFieldRemember inputFieldWho_SC">
+                            <input type="button" class="selectButtonDataset selectButton releasedButton_SC btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0">
+                            <input type="button" class="selectButtonDataset selectButton removeReleasedButton_SC btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0"><br>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="input-group">
+                        <div class="topicDatasetItems_SC nobr">
+                            <div class="topicItems_SC"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="printerLayout_SC">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group text-wrap">
+                        <div class="topDatasetItems_SC"></div>
+                    </div>
+                </div>
+            </div>
+            <hr class="hr2">
+            <div class="topicsHeader text-center fw-bold"></div><br>
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group">
+                        <div class="topicDatasetItems_SC nobr">
+                            <div class="topicItems_SC"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="container ml-6">
+        <div class="row">
+            <div class="col-4">
+                <form>
+                    <nobr>
+                        <input type="button" class="selectButtonDataset selectButton m-3 printButton_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
+                        <input type="button" class="selectButtonDataset selectButton m-3 changeButton_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
+                        <input type="button" class="selectButtonDataset selectButton m-3 removeButton_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
+                    </nobr>
+                </form>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(".printerLayout_SC").hide();
+        usr_SC = localStorage.getItem("loginUser");
+
+        if (usr_SC === "admin1" || usr_SC === "admin2") {
+            $(".formEditing").show();
+            $(".editFieldLabel_SC").show();
+            $(".editFieldLabelWhen_SC").show();
+            $(".inputFieldWhen_SC").show();
+            $(".inputFieldWho_SC").show();
+            $(".editFieldLabelWho_SC").show();
+            $(".releasedButton_SC").show();
+            $(".removeReleasedButton_SC").show();
+        }
+        else {
+            $(".formEditing").hide();
+            $(".editFieldLabel_SC").hide();
+            $(".editFieldLabelWhen_SC").hide();
+            $(".inputFieldWhen_SC").hide();
+            $(".inputFieldWho_SC").hide();
+            $(".editFieldLabelWho_SC").hide();
+            $(".releasedButton_SC").hide();
+            $(".removeReleasedButton_SC").hide();
+        }
+
+        $(".printButton_SC").on('click', function (event) {
+            $(".printButton_SC").hide();
+            $(".removeButton_SC").hide();
+            $(".changeButton_SC").hide();
+            $(".nav-tabs").hide();
+            $(".printerLayout_SC").show();
+            $(".window_SC").hide();
+            $(".formEditing").hide();
+            $(".editFieldLabel_SC").hide();
+            $(".editFieldLabelWhen_SC").hide();
+            $(".inputFieldWhen_SC").hide();
+            $(".inputFieldWho_SC").hide();
+            $(".editFieldLabelWho_SC").hide();
+            $(".releasedButton_SC").hide();
+            $(".removeReleasedButton_SC").hide();
+            window.print();
+            $(".printerLayout_SC").hide();
+            $(".window_SC").show();
+            $(".printButton_SC").show();
+            $(".removeButton_SC").show();
+            $(".changeButton_SC").show();
+            $(".nav-tabs").show();
+            $(".editFieldLabel_SC").show();
+            if (usr_SC === "admin1" || usr_SC === "admin2") {
+                $(".formEditing").show();
+                $(".editFieldLabel_SC").show();
+                $(".editFieldLabelWhen_SC").show();
+                $(".inputFieldWhen_SC").show();
+                $(".inputFieldWho_SC").show();
+                $(".editFieldLabelWho_SC").show();
+                $(".releasedButton_SC").show();
+                $(".removeReleasedButton_SC").show();
+            } $(".editFieldLabel_SC").show();
+            $(".editFieldLabelWhen_SC").show();
+            $(".inputFieldWhen_SC").show();
+            $(".inputFieldWho_SC").show();
+            $(".editFieldLabelWho_SC").show();
+            $(".releasedButton_SC").show();
+            $(".removeReleasedButton_SC").show();
+        });
+
+        $("body").on('keydown', doKeydown_SC);
+
+        $(".removeButton_SC").on('click', function (event) {
+            console.log("Event: removeButton_SC: " + SC);
+            removeTabRememberFiles(SC);
+        });
+
+        $(".changeButton_SC").on('click', function (event) {
+            changeHomeContent(SC);
+        });
+
+        $(".releasedButton_SC").on('click', function (event) {
+            saveReleased(SC);
+        });
+
+        $(".removeReleasedButton_SC").on('click', function (event) {
+            removeReleased(SC);
+        });
+
+        function doKeydown_SC(event_SC) {
+            if (event_SC.which == 27) {
+                $(".tab-0").show();
+                $(".tab-0").focus();
+                $(".tab-SC").hide();
+                $('.navtab-0').css("background", "#056289");
+                $('.navtab-0').css("color", "#ffffff");
+                $('.navtab-SC').css("background", "#ffffff");
+                $('.navtab-SC').css("color", "#000000");
+                return;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

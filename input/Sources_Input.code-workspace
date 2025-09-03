@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../LSV-Documents"
+		},
+		{
+			"path": "../BuildPackage_Sources_Input"
+		},
+		{
+			"path": "../Sources_Search"
+		}
+	],
+	"settings": {
+		"workbench.editor.historyBasedLanguageDetection": false,
+		"workbench.settings.editor": "json",
+		"workbench.editor.defaultBinaryEditor": "default"
+	}
+}
