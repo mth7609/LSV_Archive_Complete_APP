@@ -31,11 +31,11 @@
   <script>
 
     $('.navtab-0').css("color", "#ffffff");
-    $('.navtab-0').css("background", "#d2f2fc");
+    $('.navtab-0').css("background", "#056289");
 
     $(".tab-0").load("./home.html");
     $(".navtab-0").on('click', function (event) {
-      for (let i = 1; i <= localStorage.getItem("maxDatasetTabs"); i++) {
+      for (let i = 1; i <= localStorage.getItem("initMaxSearchSets"); i++) {
         $('.tab-' + i).hide();
         $('.navtab-' + i).css("background", "#ffffff");
         $('.navtab-' + i).css("color", "#000000");
@@ -45,7 +45,7 @@
       $(".dsNumber").focus();
 
       $(".navtab-0").show();
-      $('.navtab-0').css("background", "#d2f2fc");
+      $('.navtab-0').css("background", "#056289");
       $('.navtab-0').css("color", "#ffffff");
     });
 

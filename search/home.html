@@ -48,49 +48,6 @@
         $(".buttonMessageModal").hide();
     </script>
 
-
-    <button type="button" class="buttonOpenConfirmSaveModal" data-bs-toggle="modal" data-bs-target=".confirmSaveModal"></button>
-    <div class="modal fade confirmSaveModal" data-bs-backdrop="static" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 confirmSaveHeadline"></h1>
-                    <button type="button" class="btn-close"></button>
-                </div>
-                <div class="modal-body ps-3">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn confirmSaveCancel selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
-                    <button type="button" class="btn confirmSaveOverwrite selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(".buttonOpenConfirmSaveModal").hide();
-    </script>
-
-    <button type="button" class="buttonOpenConfirmDeleteModal" data-bs-toggle="modal" data-bs-target=".confirmDeleteModal"></button>
-    <div class="modal fade confirmDeleteModal" data-bs-backdrop="static" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 confirmDeleteHeadline"></h1>
-                    <button type="button" class="btn-close"></button>
-                </div>
-                <div class="modal-body-delete ps-3">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn confirmDeleteCancel selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
-                    <button type="button" class="btn confirmDelete selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(".buttonOpenConfirmDeleteModal").hide();
-    </script>
-
     <br>
     <div class="m-1 ps-4 pt-2 position-absolute z-n2 logoImage"></div>
     <br>
@@ -130,10 +87,6 @@
                             <label class="col-form-label dummyLabel headlinesTop">&nbsp;</label>
                             <input type="button" class="p-0 form-control selectButton doButtonFetch btn-outline-secondary">
                         </div>
-                        <div class="col-sm-1 ps-1 pe-2 m-0">
-                            <label class="col-form-label dummyLabel headlinesTop">&nbsp;</label>
-                            <input type="button" class="p-0 form-control selectButton doButtonNew btn-outline-secondary">
-                        </div>
                     </div>
                     <div class="form-group row nobr">
                         <div class="col-sm-4">
@@ -166,11 +119,7 @@
                         </div>
                         <div class="col-sm-1 ps-0 pe-2 m-0">
                             <label class="col-form-label headlinesTop">&nbsp;</label>
-                            <input type="button" class="p-0 form-control doButtonDatasetSave btn-outline-secondary selectButton">
-                        </div>
-                        <div class="col-sm-1 ps-1 pe-2 m-0">
-                            <label class="col-form-label headlinesTop">&nbsp;</label>
-                            <input type="button" class="p-0 form-control doButtonDatasetDelete btn-outline-secondary selectButton">
+                            <input type="button" class="p-0 form-control doButtonDatasetSearch btn-outline-secondary selectButton">
                         </div>
                     </div>
                 </form>

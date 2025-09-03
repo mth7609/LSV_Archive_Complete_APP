@@ -1,20 +1,15 @@
 import { requestAllDatasetNumbers, requestStates, requestTopHeadlines, requestTopicHeadlines, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js"; import { globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
-import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
+import { checkTab, checkForDataset, doFetch, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
 import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2, setStatus1 } from "./RendererScripts_03.js";
 import { log } from "./RendererLog.js";
 
 var selectedDropdown = 0;
 var elementsOnForm = 1;
 var lastTopicName = "null";
-
 localStorage.setItem("tabCount", 0);
-localStorage.setItem("selectCnt", 1);
-localStorage.setItem("changeDatasetNumber", null);
-localStorage.setItem("keyLast", 0);
-localStorage.setItem("topFormElementActive", -1);
+let datasetTopItems;
+let datasetTopicsItems;
 
-const datasetTopItems = Array.from({ length: localStorage.getItem("initMaxSearchSets") + 1 }, () => new Array(elementsOnForm).fill(0));
-const datasetTopicsItems = Array.from({ length: localStorage.getItem("initMaxSearchSets") + 1 }, () => new Array(elementsOnForm).fill(0));
 
 setStatus1("Checking...");
 
@@ -83,7 +78,6 @@ export function setTopicItems(nr) {
     }
 }
 
-$(".doButtonDatasetDelete").removeClass('disabled');
 $(".doButtonDatasetRemember").removeClass('disabled');
 $(".navtab-0").text(localStorage.getItem("homeLabel"));
 
@@ -92,24 +86,21 @@ function setOthersFromMain() {
     $(".dropdown-menu li a").on('click', updateValue);
     $(".doButtonFetch").on('click', doFetch);
     $(".doButtonDatasetRemember").on('click', doDatasetRemember);
-    $(".doButtonDatasetSave").on('click', doDatasetSave);
-    $(".doButtonDatasetDelete").on('click', doDatasetDelete);
     $(".dropdownState").on('click', stateSel);
     $(".dropdownYear").on('click', yearSel);
     $(".schoolLabel").on('click', publisherSchool);
     $(".freeLabel").on('click', publisherFree);
     $(".topicListButtonInput").on('click', topicListButtonClick);
     $(".topicListLabel").on('click', topicListLabelClick);
-    $(".doButtonNew").on('click', doNew);
-    $(".name").on('focus', setDatasetChanged);
-    $(".schoolLabel").on('focus', setDatasetChanged);
-    $(".city").on('focus', setDatasetChanged);
-    $(".schoolPublisher").on('focus', setDatasetChanged);
-    $(".publishNo").on('focus', setDatasetChanged);
-    $(".dropdownYear").on('focus', setDatasetChanged);
-    $(".dropdownState").on('focus', setDatasetChanged);
-    $(".freeLabel").on('focus', setDatasetChanged);
-    $(".comment").on('focus', setDatasetChanged);
+    $(".name").on('focus', setFormToSearch);
+    $(".schoolLabel").on('focus', setFormToSearch);
+    $(".city").on('focus', setFormToSearch);
+    $(".schoolPublisher").on('focus', setFormToSearch);
+    $(".publishNo").on('focus', setFormToSearch);
+    $(".dropdownYear").on('focus', setFormToSearch);
+    $(".dropdownState").on('focus', setFormToSearch);
+    $(".freeLabel").on('focus', setFormToSearch);
+    $(".comment").on('focus', setFormToSearch);
 
     setTopHeadlines();
     setToLastDatasetUsed();
@@ -129,33 +120,12 @@ $(".messageOK").on('click', function () {
     localStorage.setItem("messageOK", 1);
 })
 
-$(".confirmSaveCancel").on('click', function () {
-    localStorage.setItem("confirmSaveCancel", 1);
-    localStorage.setItem("confirmSaveOverwrite", 0);
-})
-
-$(".confirmSaveOverwrite").on('click', function () {
-    localStorage.setItem("confirmSaveCancel", 0);
-    localStorage.setItem("confirmSaveOverwrite", 1);
-})
-
-$(".confirmDelete").on('click', function () {
-    localStorage.setItem("confirmDeleteCancel", 0);
-    localStorage.setItem("confirmDelete", 1);
-})
-
-$(".confirmDeleteCancel").on('click', function () {
-    localStorage.setItem("confirmDeleteCancel", 1);
-    localStorage.setItem("confirmDelete", 0);
-})
-
 
 export function setToLastDatasetUsed() {
     //log("Entry setToLastDatasetUsed");
     let ld = localStorage.getItem("lastDatasetNumberUsed");
     if (ld == 0 || ld == null) {
-        $(".dsNumber").val("00.000");
-        setToNew();
+        setToSearch();
     }
     else {
         //log(ld);
@@ -167,18 +137,18 @@ export function setToLastDatasetUsed() {
 }
 
 
-export function setDatasetChanged() {
+export function setFormToSearch() {
     localStorage.setItem("keyLast", 0);
     setStatusWarningPermanent(2, upperLetter(localStorage.getItem("changed"), 0));
-    $(".doButtonDatasetDelete").addClass('disabled');
-    $(".doButtonDatasetSave").removeClass('disabled');
+    $(".doButtonDatasetSearch").removeClass('disabled');
     $(".doButtonDatasetRemember").addClass('disabled');
+    clearInput();
 }
 
 
 export function setDatasetUnchanged() {
-    setStatus2(upperLetter(localStorage.getItem("saved"), 0));
-    $(".doButtonDatasetDelete").removeClass('disabled');
+    //setStatus2(upperLetter(localStorage.getItem("saved"), 0));
+    //$(".doButtonDatasetDelete").removeClass('disabled');
 }
 
 window.electronAPI.getInitData((value) => {
@@ -194,8 +164,16 @@ window.electronAPI.getInitData((value) => {
     localStorage.setItem("initMysqlUser", value["mysqlUser"]);
     localStorage.setItem("initMysqlPassword", value["mysqlPassword"]);
     localStorage.setItem("initMysqlDatabase", value["mysqlDatabase"]);
-    localStorage.setItem("initMaxSearchSets", value["maxSearchSets"]);
+    localStorage.setItem("maxSearchTabs", value["maxSearchTabs"]);
     localStorage.setItem("initDate", value["initDate"]);
+    localStorage.setItem("tabCount", 0);
+    localStorage.setItem("selectCnt", 1);
+    localStorage.setItem("keyLast", 0);
+    localStorage.setItem("topFormElementActive", -1);
+
+    log("maxTabs; " + localStorage.getItem("maxSearchTabs"));
+    datasetTopItems = Array.from({ length: localStorage.getItem("maxSearchTabs") + 1 }, () => new Array(elementsOnForm).fill(0));
+    datasetTopicsItems = Array.from({ length: localStorage.getItem("maxSearchTabs") + 1 }, () => new Array(elementsOnForm).fill(0));
 })
 
 
@@ -316,10 +294,8 @@ function setTopHeadlines() {
     $('.freeLabel').html(localStorage.getItem("free"));
     $('.schoolLabel').html(localStorage.getItem("school"));
     $('.doButtonDatasetRemember').val(localStorage.getItem("mainHeadline_9"));
-    $('.doButtonDatasetSave').val(localStorage.getItem("mainHeadline_10"));
-    $('.doButtonDatasetDelete').val(localStorage.getItem("mainHeadline_11"));
+    $('.doButtonDatasetSearch').val(localStorage.getItem("mainHeadline_14"));
     $('.commentLabel').html(localStorage.getItem("mainHeadline_7"));
-    $('.doButtonNew').val(localStorage.getItem("mainHeadline_13"));
     $('.doButtonFetch').val(localStorage.getItem("mainHeadline_12"));
     $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
 }
@@ -336,37 +312,37 @@ function topicListButtonClick() {
     if (topicName == lastTopicName) {
         $("." + topicName).prop("checked", false);
         lastTopicName = "null";
-        $("." + topicName).css("backgroundColor", "#660000").css("border", "solid 1px #111111");
+        $("." + topicName).css("backgroundColor", "#b2d2dc").css("border", "solid 1px #111111");
         globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = false;
         localStorage.setItem("checked_" + topicName, "unchecked");
     }
     else {
-        $("." + topicName).css("backgroundColor", "#00dd00").css("border", "solid 1px #111111");
+        $("." + topicName).css("backgroundColor", "#00bb00").css("border", "solid 1px #111111");
         lastTopicName = topicName;
     }
     $("." + topicName).trigger("blur");
-    setDatasetChanged();
+    setFormToSearch();
 }
 
 
 function topicListLabelClick() {
     let topicName = this.attributes[1].value.replace("Label", "");
     //log("2 " + topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
-    $("." + topicName).css("backgroundColor", "#00dd00").css("border", "solid 1px #111111");
+    $("." + topicName).css("backgroundColor", "#b2d2dc").css("border", "solid 1px #111111");
     localStorage.setItem("checked_" + topicName, "checked");
 
     if (topicName == lastTopicName) {
         $("." + topicName).prop("checked", false);
         lastTopicName = "null";
-        $("." + topicName).css("backgroundColor", "#660000").css("border", "solid 1px #111111");
+        $("." + topicName).css("backgroundColor", "#b2d2dc").css("border", "solid 1px #111111");
         localStorage.setItem("checked_" + topicName, "unchecked");
     }
     else {
-        $("." + topicName).css("backgroundColor", "#00dd00").css("border", "solid 1px #111111");
+        $("." + topicName).css("backgroundColor", "#00bb00").css("border", "solid 1px #111111");
         lastTopicName = topicName;
     }
     $("." + topicName).trigger("blur");
-    setDatasetChanged();
+    setFormToSearch();
 }
 
 
@@ -377,7 +353,7 @@ function publisherSchool(str) {
     $(".freeLabel").css("color", "#000000");
     $(".schoolLabel").css("backgroundColor", "#007700");
     $(".schoolLabel").css("color", "#ffffff");
-    setDatasetChanged();
+    setFormToSearch();
     //log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
 
@@ -389,7 +365,7 @@ function publisherFree(str) {
     $(".freeLabel").css("color", "#ffffff");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
     $(".schoolLabel").css("color", "#000000");
-    setDatasetChanged();
+    setFormToSearch();
     //log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
 
@@ -470,22 +446,15 @@ function yearReset() {
 }
 
 
-export function setToNew() {
+export function setToSearch() {
     $(".statusbar3").css("color", "#000000");
     $(".statusbar3").css("background-color", "#c2e2ec");
-    $(".doButtonDatasetDelete").addClass('disabled');
-    $(".doButtonDatasetSave").addClass('disabled');
+    $(".doButtonDatasetSearch").addClass('disabled');
     $(".doButtonDatasetRemember").addClass('disabled');
     localStorage.setItem("changeDatasetNumber", null);
     localStorage.setItem("datasetNumber", null);
     setStatus3(localStorage.getItem("enterData"));
-}
-
-
-export function doNew() {
     clearInput();
-    setToNew();
-    $(".doButtonNew").trigger("blur");
 }
 
 
@@ -503,7 +472,7 @@ export function clearInput() {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             localStorage.removeItem("checked_topic_" + n + "_" + i);
             $(".topic_" + n + "_" + i).prop("checked", false);
-            $(".topic_" + n + "_" + i).css("backgroundColor", "#660000").css("border", "solid 1px #111111");
+            $(".topic_" + n + "_" + i).css("backgroundColor", "#b2d2dc").css("border", "solid 1px #111111");
         }
     }
     $('.comment').val("");
@@ -516,10 +485,10 @@ export function doDatasetRemember() {
 
     $(".doButtonDatasetRemember").trigger("blur");
 
-    let selectCnt = localStorage.getItem("selectCnt");
-    //log("1 cnt: " + selectCnt);
+    let selectCnt = Number(localStorage.getItem("selectCnt"));
+    let max = Number(localStorage.getItem("maxSearchTabs"));
 
-    if (selectCnt > maxDatasetTabs) {
+    if (selectCnt > max) {
         setStatusWarning(3, localStorage.getItem("statusListFull"));
         $(".doButtonDatasetRemember").addClass('disabled');
         return;
@@ -575,12 +544,13 @@ export function doDatasetRemember() {
 
     let ftab = getFreeTab();
     selectCnt = ftab;
+
     //window.electronAPI.createNewDatasetFile(ftab);
     let datasetFileName = "./SearchResult_" + ftab + ".html";
 
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
-    //log("doDatasetRemember new SelectCnt: " + selectCnt);
+    log("2 doDatasetRemember new SelectCnt: " + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
     return pnr;

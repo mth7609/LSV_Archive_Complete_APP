@@ -18,6 +18,14 @@ console.log = function (message) {
   process.stdout.write(util.format(message) + '\n');
 };
 
+console.error = function (message) {
+  process.stdout.write(util.format(message) + '\n');
+};
+
+console.message = function (message) {
+  process.stdout.write(util.format(message) + '\n');
+};
+
 var Printer = require('ipp-printer')
 var PDFDocument = require('pdfkit');
 
@@ -170,8 +178,8 @@ const createMainWindow = () => {
 const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
     width: 500,
-    height: 420,
-    frame: false,
+    height: 470,
+    frame: true,
     show: false,
     alwaysOnTop: false,
     webPreferences: {
@@ -259,6 +267,8 @@ loadingEvents.on('finishedLogin', async () => {
       winMain.loadFile('./index.html');
     else
       winMain.loadFile('./index.html');
+
+    winMain.webContents.toggleDevTools();  // To be removed
 
     //winMain.center();
     setTimeout(() => {

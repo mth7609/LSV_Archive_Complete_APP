@@ -11,6 +11,6 @@
     "mysqlUser": "prolabor",
     "mysqlPassword": "mzkti29b#",
     "mysqlDatabase": "prolabor",
-    "maxSearchSets": "10",
+    "maxSearchTabs": "10",
     "initDate": "03.09.2025"
   }

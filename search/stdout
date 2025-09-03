@@ -1,0 +1,20 @@
+
+> LSV-Archiv@1.0.0 start
+> electron .
+
+
+Starting application
+Local HTTP server started
+HTTP Server listen on http://localhost:8089
+Connected to database
+Login window created
+Login error window created
+Main window created
+Login window running
+Threads started
+Entry frontPageLoop
+Entry checkDBLoop
+Threads terminated
+Disconnect database
+HTTP server stopped
+The End
