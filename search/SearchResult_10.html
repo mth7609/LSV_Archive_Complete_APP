@@ -2,20 +2,15 @@
 <html lang="en">
 
 <head>
-    <script src="./RendererDatasetTab.js"></script>
+    <script src="./SearchResultTab.js"></script>
     <link rel="stylesheet" href="lsv.css">
 </head>
 
 <script>
     $(".printButton_10").val(localStorage.getItem("print"));
-    $(".changeButton_10").val(localStorage.getItem("change"));
+    $(".showButton_10").val(localStorage.getItem("show"));
     $(".removeButton_10").val(localStorage.getItem("remove"));
-    $(".editFieldLabel_10").text(localStorage.getItem("editField"));
-    $(".editFieldLabelWhen_10").text(localStorage.getItem("when") + ":");
-    $(".editFieldLabelWho_10").text(localStorage.getItem("who") + ":");
-    $(".releasedButton_10").val(localStorage.getItem("released"));
-    $(".removeReleasedButton_10").val(localStorage.getItem("releasedRemove"));
-    updateDatasetTabContent(10);
+    updateSearchResultTabContent(10);
 </script>
 
 <body>
@@ -25,7 +20,7 @@
     </div>
     <br><br>
 
-    <p class="text-center fs-1 fw-bold tab_10"></p>
+    <!--<p class="text-center fs-1 fw-bold tab_10"></p> -->
 
     <div class="window_10">
         <div class="container">
@@ -34,18 +29,14 @@
                     <div class="input-group text-wrap">
                         <div class="topDatasetItems_10"></div>
                     </div>
-                    <div><br>
-                        <hr><br>
-                        <form method="POST" class="form-horizontal formEditing mx-3 ps-4 pe-3 pt-2 rounded-4">
-                            <label for="text" class="col-form-label editFieldLabel_10 fw-bold"></label><br>
-                            <label for="text" class="col-form-label editFieldLabelWhen_10 fw-bold"></label>
-                            <input type="text" class="form-control inputFieldRemember inputFieldWhen_10 text-label">
-                            <label for="text" class="col-form-label editFieldLabelWho_10 fw-bold"></label>
-                            <input type="text" class="form-control inputFieldRemember inputFieldWho_10">
-                            <input type="button" class="selectButtonDataset selectButton releasedButton_10 btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0">
-                            <input type="button" class="selectButtonDataset selectButton removeReleasedButton_10 btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0"><br>
-                        </form>
-                    </div>
+                    <br>
+                    <form>
+                        <nobr>
+                            <input type="button" class="selectButtonDataset selectButton m-3 printButton_10 btn btn-outline-secondary ps-2 pe-2 pt-0">
+                            <input type="button" class="selectButtonDataset selectButton m-3 showButton_10 btn btn-outline-secondary ps-2 pe-2 pt-0">
+                            <input type="button" class="selectButtonDataset selectButton m-3 removeButton_10 btn btn-outline-secondary ps-2 pe-2 pt-0">
+                        </nobr>
+                    </form>
                 </div>
                 <div class="col-8">
                     <div class="input-group">
@@ -81,88 +72,25 @@
         </div>
     </div>
 
-    <br>
-
-    <div class="container ml-6">
-        <div class="row">
-            <div class="col-4">
-                <form>
-                    <nobr>
-                        <input type="button" class="selectButtonDataset selectButton m-3 printButton_10 btn btn-outline-secondary ps-2 pe-2 pt-0">
-                        <input type="button" class="selectButtonDataset selectButton m-3 changeButton_10 btn btn-outline-secondary ps-2 pe-2 pt-0">
-                        <input type="button" class="selectButtonDataset selectButton m-3 removeButton_10 btn btn-outline-secondary ps-2 pe-2 pt-0">
-                    </nobr>
-                </form>
-            </div>
-            <div class="col-4">
-            </div>
-        </div>
-    </div>
-
 
     <script>
         $(".printerLayout_10").hide();
         usr_10 = localStorage.getItem("loginUser");
 
-        if (usr_10 === "admin1" || usr_10 === "admin2") {
-            $(".formEditing").show();
-            $(".editFieldLabel_10").show();
-            $(".editFieldLabelWhen_10").show();
-            $(".inputFieldWhen_10").show();
-            $(".inputFieldWho_10").show();
-            $(".editFieldLabelWho_10").show();
-            $(".releasedButton_10").show();
-            $(".removeReleasedButton_10").show();
-        }
-        else {
-            $(".formEditing").hide();
-            $(".editFieldLabel_10").hide();
-            $(".editFieldLabelWhen_10").hide();
-            $(".inputFieldWhen_10").hide();
-            $(".inputFieldWho_10").hide();
-            $(".editFieldLabelWho_10").hide();
-            $(".releasedButton_10").hide();
-            $(".removeReleasedButton_10").hide();
-        }
-
         $(".printButton_10").on('click', function (event) {
             $(".printButton_10").hide();
             $(".removeButton_10").hide();
-            $(".changeButton_10").hide();
+            $(".showButton_10").hide();
             $(".nav-tabs").hide();
             $(".printerLayout_10").show();
             $(".window_10").hide();
-            $(".formEditing").hide();
-            $(".editFieldLabel_10").hide();
-            $(".editFieldLabelWhen_10").hide();
-            $(".inputFieldWhen_10").hide();
-            $(".inputFieldWho_10").hide();
-            $(".editFieldLabelWho_10").hide();
-            $(".releasedButton_10").hide();
-            $(".removeReleasedButton_10").hide();
             window.print();
             $(".printerLayout_10").hide();
             $(".window_10").show();
             $(".printButton_10").show();
             $(".removeButton_10").show();
-            $(".changeButton_10").show();
+            $(".showButton_10").show();
             $(".nav-tabs").show();
-            $(".editFieldLabel_10").show();
-            if (usr_10 === "admin1" || usr_10 === "admin2") {
-                $(".formEditing").show();
-                $(".editFieldLabel_10").show();
-                $(".editFieldLabelWhen_10").show();
-                $(".inputFieldWhen_10").show();
-                $(".inputFieldWho_10").show();
-                $(".editFieldLabelWho_10").show();
-                $(".releasedButton_10").show();
-                $(".removeReleasedButton_10").show();
-            } $(".editFieldLabel_10").show();
-            $(".editFieldLabelWhen_10").show();
-            $(".inputFieldWhen_10").show();
-            $(".inputFieldWho_10").show();
-            $(".editFieldLabelWho_10").show();
-            $(".releasedButton_10").show();
             $(".removeReleasedButton_10").show();
         });
 
@@ -173,17 +101,10 @@
             removeTabRememberFiles(10);
         });
 
-        $(".changeButton_10").on('click', function (event) {
-            changeHomeContent(10);
+        $(".showButton_10").on('click', function (event) {
+            showHomeContent(10);
         });
 
-        $(".releasedButton_10").on('click', function (event) {
-            saveReleased(10);
-        });
-
-        $(".removeReleasedButton_10").on('click', function (event) {
-            removeReleased(10);
-        });
 
         function doKeydown_10(event_10) {
             if (event_10.which == 27) {

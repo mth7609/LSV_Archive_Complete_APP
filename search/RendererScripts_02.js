@@ -1,5 +1,5 @@
-import { doDatasetRemember, setDatasetUnchanged, prepareNumber, clearInput, setToSearch } from "./RendererScripts_01.js";
-import { setStatusWarning, setUserStatus, setStatus1 } from "./RendererScripts_03.js";
+import { doDatasetRemember, prepareNumber, clearInput } from "./RendererScripts_01.js";
+import { setStatusWarning, setUserStatus, setStatus3, setStatus1 } from "./RendererScripts_03.js";
 import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalDataset } from "./Globals.js";
 import { log } from "./RendererLog.js";
@@ -34,7 +34,7 @@ export function showDBStatus(st) {
 export function removeTabs() {
     let i;
     for (i = 1; i <= localStorage.getItem("maxSearchTabs"); i++) {
-        log("Tab nr: " + i);
+        //log("Tab nr: " + i);
         $(".navtab-" + i).removeClass("active");
         $(".tab-" + i).removeClass("active");
         $(".navtab-" + i).remove();
@@ -67,7 +67,7 @@ export function newTab(nr, link, name) {
     $(".navtab-" + nr).on('click', function (event) {
         setTabActive(nr);
         $(".tab-" + nr).show();
-        log("newTab(), Tab nr: " + nr);
+        //log("newTab(), Tab nr: " + nr);
     });
 }
 
@@ -130,7 +130,7 @@ export function doKeydown(event) {
         let elcnt = localStorage.getItem("topFormElementActive");
         localStorage.setItem("topFormElementActive", ++elcnt);
 
-        //        log(elcnt);
+        //       //log(elcnt);
         switch (elcnt) {
             case 0:
                 $(".dropdownState").blur();
@@ -371,7 +371,7 @@ export function doFetch() {
         localStorage.setItem("datasetNumber", null);
     }
     else {
-        setStatusWarning(3, localStorage.getItem("dataset") + " " + pnr + " " + localStorage.getItem("notFound"));
+        setStatusWarning(3, "Nr. " + pnr + " " + localStorage.getItem("notFound"));
         return;
     }
 
@@ -382,9 +382,12 @@ export function doFetch() {
     $(".doButtonDatasetRemember").removeClass('disabled');
     requestComment(nr);
     showDataInForm();
-    setDatasetUnchanged();
     localStorage.setItem("lastDatasetNumberUsed", nr);
-    $(".statusText3").html(localStorage.getItem("enterData"));
+    localStorage.setItem("searchMode", "false");
+
+    //log(localStorage.getItem("showModeText"));
+
+    setStatus3(localStorage.getItem("showModeText"));
     $(".doButtonDatasetSearch").addClass('disabled');
 }
 
@@ -444,9 +447,6 @@ function showDataInForm() {
 
     var enc = decodeURIComponent(localStorage.getItem("datasetComment"));
     $('.comment').val(enc);
-
-    localStorage.setItem("releasedWho", globalDataset.contentValue[0]["releasedWho"]);
-    localStorage.setItem("releasedWhen", globalDataset.contentValue[0]["releasedWhen"]);
 }
 
 

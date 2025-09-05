@@ -58,11 +58,10 @@ async function runForeverSecs(callCnt) {
 
 
 function createDatasetFiles() {
-    let maxSearchSets = initData["maxSearchSets"];
-    for (let i = 1; i <= maxSearchSets; i++) {
+    let maxSearchTabs = initData["maxSearchTabs"];
+    for (let i = 1; i <= maxSearchTabs; i++) {
         let searchFileName = "./SearchResult_" + i + ".html";
         let res;
-
         fs.open("./SearchResultTemplate.html", 'r', function (err, fileToRead) {
             if (!err) {
                 fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, text) {
@@ -70,7 +69,7 @@ function createDatasetFiles() {
                         let res = text.replace(/SC/g, i);
                         fs.writeFileSync(searchFileName, res);
                     } else {
-                        console.log(err);
+                        console.log("createDatasetFiles: " + err);
                     }
                 });
             } else {

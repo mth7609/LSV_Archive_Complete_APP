@@ -37,11 +37,11 @@ body {
     left: 30%;
     width: 13%;
     padding: 0px;
-    margin: auto;
+    margin: 0px;
     font-weight: bold;
     font-size: 14px;
     background: #c2e2ec;
-    z-index: 201;
+    z-index: 202;
     border: solid 2px rgb(0, 0, 0);
     color: #000000;
     height: 28px;
@@ -52,14 +52,14 @@ body {
     vertical-align: bottom;
     position: fixed;
     bottom: 0px;
-    left: 42%;
+    left: 41%;
     width: 13%;
     padding: 0px;
-    margin: auto;
+    margin: 0px;
     font-weight: bold;
     font-size: 14px;
     background: #c2e2ec;
-    z-index: 201;
+    z-index: 203;
     border: solid 2px rgb(0, 0, 0);
     color: #000000;
     height: 28px;
@@ -71,10 +71,10 @@ body {
     vertical-align: bottom;
     position: fixed;
     bottom: 0px;
-    left: 54%;
+    left: 53%;
     width: 16%;
     padding: 0px;
-    margin: auto;
+    margin: 0px;
     font-weight: bold;
     font-size: 14px;
     background: #c2e2ec;
@@ -97,7 +97,7 @@ body {
     font-weight: bold;
     font-size: 14px;
     background: #c2e2ec;
-    z-index: 206;
+    z-index: 207;
     border: solid 2px rgb(0, 0, 0);
     color: #000000;
     height: 28px;
@@ -116,7 +116,7 @@ body {
     font-weight: bold;
     font-size: 14px;
     background: #c2e2ec;
-    z-index: 204;
+    z-index: 208;
     border: solid 2px rgb(0, 0, 0);
     color: #000000;
     height: 28px;
@@ -195,12 +195,12 @@ body {
 }
 
 .topicListButton {
-    background: #056289;
+    background: #d2f2fc;
     border: solid 1px #111111;
 }
 
 .topicListButtonInput {
-    background: #056289;
+    background: #d2f2fc;
     border: solid 1px #111111;
 }
 

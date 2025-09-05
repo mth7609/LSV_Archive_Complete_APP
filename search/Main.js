@@ -46,7 +46,7 @@ serverFunctions.store.put("dbconnect", "NOK");
 
 const createMainWindow = () => {
   winMain = new BrowserWindow({
-    width: 1250,
+    width: 1300,
     height: 850,
     show: false,
     frame: true,
@@ -61,6 +61,7 @@ const createMainWindow = () => {
 
   winMain.setPosition(0, 50, true);
   winMain.once('ready-to-show', () => {
+    serverFunctions.createDatasetFiles();
     winMain.webContents.send('loginUser', loginUser);
     winMain.webContents.send('userPolicy', userPolicy);
     winMain.webContents.send("initData", initData);
@@ -83,7 +84,6 @@ const createMainWindow = () => {
   })
 
   winMain.webContents.session.setSpellCheckerEnabled(false);
-  serverFunctions.createDatasetFiles();
 
   ipcMain.on('loginCMD', (event, user, pwd, pwdSHA, policy) => {
     if (pwd === "nok") {
@@ -281,6 +281,21 @@ loadingEvents.on('finishedLogin', async () => {
     console.error('Error loading index.html: ', error);
   }
 })
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+app.on("web-contents-created", (event, contents) => {
+  contents.on("devtools-opened", () => contents.devToolsWebContents?.executeJavaScript(`
+        (() => {
+            const origErr = console.error;
+            console.error = function (...args) {
+                const s = String(args[0] ?? "");
+                if (s.includes("Autofill.enable") || s.includes("Autofill.setAddresses")) return;
+                return origErr.apply(console, args);
+            };
+        })()
+    `));
+});
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

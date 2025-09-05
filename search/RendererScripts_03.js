@@ -1,4 +1,5 @@
 import { globalDataset } from "./Globals.js";
+import { log } from "./RendererLog.js";
 
 // for modal window save
 export async function runForeverShowMessage(callCnt) {
@@ -57,9 +58,10 @@ export function setStatus2(str) {
 
 
 export function setStatus3(str) {
+    //log("st: " + str);
     $(".statusbar3").css("color", "#000000");
     $(".statusbar3").css("background-color", "#c2e2ec");
-    $(".statusText3").html("&nbsp; " + str);
+    $(".statusText3").html(str);
 }
 
 
@@ -97,7 +99,7 @@ export function setStatusWarning(pos, text) {
         fkt = "setStatus" + pos + "('')";
         eval(fkt);
         if (pos == 3)
-            setStatus3(localStorage.getItem("enterData"));
+            setStatus3(localStorage.getItem("showMode"));
     }, 4000);
 }
 
@@ -131,7 +133,7 @@ export function setStatusInformation(pos, text) {
         fkt = "setStatus" + pos + "('')";
         eval(fkt);
         if (pos == 3)
-            setStatus3(localStorage.getItem("enterData"));
+            setStatus3(localStorage.getItem("showMode"));
     }, 4000);
 }
 
@@ -149,7 +151,7 @@ export function setStatusTodo(pos, text) {
         fkt = "setStatus" + pos + "('')";
         eval(fkt);
         if (pos == 3)
-            setStatus3(localStorage.getItem("enterData"));
+            setStatus3(localStorage.getItem("ShowMode"));
     }, 4000);
 }
 

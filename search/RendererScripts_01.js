@@ -1,6 +1,6 @@
 import { requestAllDatasetNumbers, requestStates, requestTopHeadlines, requestTopicHeadlines, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js"; import { globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
 import { checkTab, checkForDataset, doFetch, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
-import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2, setStatus1 } from "./RendererScripts_03.js";
+import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus6, setStatus1 } from "./RendererScripts_03.js";
 import { log } from "./RendererLog.js";
 
 var selectedDropdown = 0;
@@ -125,7 +125,7 @@ export function setToLastDatasetUsed() {
     //log("Entry setToLastDatasetUsed");
     let ld = localStorage.getItem("lastDatasetNumberUsed");
     if (ld == 0 || ld == null) {
-        setToSearch();
+        setFormToSearch();
     }
     else {
         //log(ld);
@@ -138,18 +138,16 @@ export function setToLastDatasetUsed() {
 
 
 export function setFormToSearch() {
+    if (localStorage.getItem("searchMode") == "true")
+        return;
+    localStorage.setItem("searchMode", "true");
     localStorage.setItem("keyLast", 0);
-    setStatusWarningPermanent(2, upperLetter(localStorage.getItem("changed"), 0));
+    setStatus3(localStorage.getItem("searchModeText"));
     $(".doButtonDatasetSearch").removeClass('disabled');
     $(".doButtonDatasetRemember").addClass('disabled');
     clearInput();
 }
 
-
-export function setDatasetUnchanged() {
-    //setStatus2(upperLetter(localStorage.getItem("saved"), 0));
-    //$(".doButtonDatasetDelete").removeClass('disabled');
-}
 
 window.electronAPI.getInitData((value) => {
     localStorage.setItem("initTitle", value["title"]);
@@ -170,8 +168,9 @@ window.electronAPI.getInitData((value) => {
     localStorage.setItem("selectCnt", 1);
     localStorage.setItem("keyLast", 0);
     localStorage.setItem("topFormElementActive", -1);
+    localStorage.setItem("searchMode", "false");
 
-    log("maxTabs; " + localStorage.getItem("maxSearchTabs"));
+    //log("maxTabs; " + localStorage.getItem("maxSearchTabs"));
     datasetTopItems = Array.from({ length: localStorage.getItem("maxSearchTabs") + 1 }, () => new Array(elementsOnForm).fill(0));
     datasetTopicsItems = Array.from({ length: localStorage.getItem("maxSearchTabs") + 1 }, () => new Array(elementsOnForm).fill(0));
 })
@@ -252,7 +251,6 @@ export function getActualFullDate(millis) {
 
 
 function setOtherContent() {            // using the front pages ticks
-    //$('.statusText2').text(self.innerWidth);
     if (self.innerWidth > 1500) {
         //$('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
         $(".selectButton").css("font-size", "18px");
@@ -263,7 +261,7 @@ function setOtherContent() {            // using the front pages ticks
         $(".selectButton").css("fontSize", "14px");
         $(".selectButton").css.apply;
     }
-    $('.statusText6').text(getActualFullDate());
+    setStatus6(getActualFullDate());
 }
 
 
@@ -446,18 +444,6 @@ function yearReset() {
 }
 
 
-export function setToSearch() {
-    $(".statusbar3").css("color", "#000000");
-    $(".statusbar3").css("background-color", "#c2e2ec");
-    $(".doButtonDatasetSearch").addClass('disabled');
-    $(".doButtonDatasetRemember").addClass('disabled');
-    localStorage.setItem("changeDatasetNumber", null);
-    localStorage.setItem("datasetNumber", null);
-    setStatus3(localStorage.getItem("enterData"));
-    clearInput();
-}
-
-
 export function clearInput() {
     let i, n;
 
@@ -550,9 +536,9 @@ export function doDatasetRemember() {
 
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
-    log("2 doDatasetRemember new SelectCnt: " + selectCnt);
+    //log("2 doDatasetRemember new SelectCnt: " + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
-    setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
+    setStatus3(localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
     return pnr;
 }
 
