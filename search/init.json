@@ -12,5 +12,6 @@
     "mysqlPassword": "mzkti29b#",
     "mysqlDatabase": "prolabor",
     "maxSearchTabs": "10",
+    "maxSearchCriteria": "10",
     "initDate": "03.09.2025"
   }

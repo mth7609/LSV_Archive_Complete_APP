@@ -1,5 +1,5 @@
-import { doDatasetRemember, prepareNumber, clearInput } from "./RendererScripts_01.js";
-import { setStatusWarning, setUserStatus, setStatus3, setStatus1 } from "./RendererScripts_03.js";
+import { doDatasetRemember, prepareNumber, clearInput, setToLastDatasetUsed } from "./RendererScripts_01.js";
+import { readSearchCriteria, setStatusWarning, setUserStatus, setStatus3, setStatus1 } from "./RendererScripts_03.js";
 import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalDataset } from "./Globals.js";
 import { log } from "./RendererLog.js";
@@ -119,22 +119,34 @@ export function doKeydown(event) {
 
     let keyLast = localStorage.getItem("keyLast");
 
-    if (key == 13 && $(".dsNumber").is(":focus")) {
-        localStorage.setItem("keyLast", 0);
-        doFetch();
-        return;
+    log(key + ",   " + localStorage.getItem("searchMode"));
+
+    if (localStorage.getItem("searchMode") == "true") {     // Search mode keys
+        if (key == 27) {  // esc
+            localStorage.setItem("keyLast", 0);
+            localStorage.setItem("searchMode", "false");
+            setToLastDatasetUsed();
+            return;
+        }
+
+        if (key == 83 && keyLast == keyCtrl) {  //s
+            readSearchCriteria();
+            return;
+        }
+
+        localStorage.setItem("keyLast", key);
     }
 
     if (key == 9) //tab
     {
-        let elcnt = localStorage.getItem("topFormElementActive");
+        let elcnt = Number(localStorage.getItem("topFormElementActive"));
         localStorage.setItem("topFormElementActive", ++elcnt);
 
-        //       //log(elcnt);
+        //log("elcnt: " + elcnt);
         switch (elcnt) {
             case 0:
                 $(".dropdownState").blur();
-                $(".dropdownState").css("backgroundColor", "#ffffff");
+                $(".dropdownState").css("backgroundColo     r", "#ffffff");
                 $(".name").focus();
                 $(".name").click();
                 $(".name").css("backgroundColor", "#aaf2fc");
@@ -220,110 +232,106 @@ export function doKeydown(event) {
 
     //log(key);
 
-    switch (key) {
-        case keyCtrl: localStorage.setItem("keyLast", keyCtrl); return;
-        case 37: break;
-        case 39: break;
-        case 77: break;
-        case 76: break;
-        case 83: break;
-        case 78: break;
-        case 65: break;
-        case 73: break;
-        case 82: break;
-        default: localStorage.setItem("keyLast", 0); return;
-    }
+    if (localStorage.getItem("searchMode") == "false") {     // Show mode
 
-    if (key == 65 && keyLast == keyCtrl) {  //a
-        doFetch();
-        localStorage.setItem("keyLast", 0);
-        return;
-    }
-
-    if (key == 82 && keyLast == keyCtrl) {  //r
-        removeTabs();
-        requestAllDatasetNumbers();
-        return;
-    }
-
-    if (key == 77 && keyLast == keyCtrl) {  //m
-        doDatasetRemember();
-        localStorage.setItem("keyLast", 0);
-        return;
-    }
-
-    if (key == 76 && keyLast == keyCtrl) { //l
-        doDatasetDelete();
-        localStorage.setItem("keyLast", 0);
-        return;
-    }
-
-    if (key == 83 && keyLast == keyCtrl) {  //s
-        doDatasetSave();
-        localStorage.setItem("keyLast", 0);
-        return;
-    }
-
-    if (key == 78 && keyLast == keyCtrl) {  //n
-        $(".dsNumber").val("00.000");
-        doNew();
-        localStorage.setItem("keyLast", 0);
-        return;
-    }
-
-    if (key == 73 && keyLast == keyCtrl) {  //i
-        let pnr = doDatasetRemember();
-        let tab = checkTabPosition(pnr);
-        //log("pos: " + tab + "         nr: " + nr);
-        $(".navtab-" + tab).click();
-        localStorage.setItem("keyLast", 0);
-        return;
-    }
-
-    //log("key: " + key + "   keyLast: " + keyLast);
-    nr = String($(".dsNumber").val()).replace(".", "");
-
-    if (nr == 0) {
-        //log(nr);
-        nr = getNextDatasetNumber(0);
-    }
-
-    if (key == 37 && keyLast == keyCtrl) {
-        let l = globalDatasetNumbers.contentValue.length;
-        for (i = 0; i < l; i++) {
-            //log("l: " + l + "   i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
-            if (globalDatasetNumbers.contentValue[i]["dataset_number"] == nr) {
-                if (i > 0) {
-                    //log("111 i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
-                    $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[i - 1]["dataset_number"]));
-                }
-                else {
-                    //log("222 i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
-                    $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[l - 1]["dataset_number"]));
-                }
-                setTimeout(function () {
-                    doFetch();
-                }, 200);
-                break;
-            }
+        if (key == 13 && $(".dsNumber").is(":focus")) {
+            localStorage.setItem("keyLast", 0);
+            doFetch();
+            return;
         }
-        //log("Control-right");
-    }
-    else {
-        if (key == 39 && keyLast == keyCtrl) {
+
+        switch (key) {
+            case keyCtrl: localStorage.setItem("keyLast", keyCtrl); return;
+            case 37: break;
+            case 39: break;
+            case 77: break;
+            case 76: break;
+            case 83: break;
+            case 78: break;
+            case 65: break;
+            case 73: break;
+            case 82: break;
+            default: localStorage.setItem("keyLast", 0); return;
+        }
+
+        if (key == 65 && keyLast == keyCtrl) {  //a
+            doFetch();
+            localStorage.setItem("keyLast", 0);
+            return;
+        }
+
+        if (key == 82 && keyLast == keyCtrl) {  //r
+            removeTabs();
+            requestAllDatasetNumbers();
+            return;
+        }
+
+        if (key == 77 && keyLast == keyCtrl) {  //m
+            doDatasetRemember();
+            localStorage.setItem("keyLast", 0);
+            return;
+        }
+
+        if (key == 78 && keyLast == keyCtrl) {  //n
+            $(".dsNumber").val("00.000");
+            doNew();
+            localStorage.setItem("keyLast", 0);
+            return;
+        }
+
+        if (key == 73 && keyLast == keyCtrl) {  //i
+            let pnr = doDatasetRemember();
+            let tab = checkTabPosition(pnr);
+            //log("pos: " + tab + "         nr: " + nr);
+            $(".navtab-" + tab).click();
+            localStorage.setItem("keyLast", 0);
+            return;
+        }
+
+        //log("key: " + key + "   keyLast: " + keyLast);
+        nr = String($(".dsNumber").val()).replace(".", "");
+
+        if (nr == 0) {
+            //log(nr);
+            nr = getNextDatasetNumber(0);
+        }
+
+        if (key == 37 && keyLast == keyCtrl) {
             let l = globalDatasetNumbers.contentValue.length;
             for (i = 0; i < l; i++) {
+                //log("l: " + l + "   i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
                 if (globalDatasetNumbers.contentValue[i]["dataset_number"] == nr) {
-                    if (i < (l - 1)) {
-                        $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[i + 1]["dataset_number"]));
+                    if (i > 0) {
+                        //log("111 i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
+                        $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[i - 1]["dataset_number"]));
                     }
                     else {
-                        $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[0]["dataset_number"]));
+                        //log("222 i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
+                        $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[l - 1]["dataset_number"]));
                     }
                     setTimeout(function () {
                         doFetch();
                     }, 200);
                     break;
+                }
+            }
+        }
+        else {
+            if (key == 39 && keyLast == keyCtrl) {
+                let l = globalDatasetNumbers.contentValue.length;
+                for (i = 0; i < l; i++) {
+                    if (globalDatasetNumbers.contentValue[i]["dataset_number"] == nr) {
+                        if (i < (l - 1)) {
+                            $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[i + 1]["dataset_number"]));
+                        }
+                        else {
+                            $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[0]["dataset_number"]));
+                        }
+                        setTimeout(function () {
+                            doFetch();
+                        }, 200);
+                        break;
+                    }
                 }
             }
         }

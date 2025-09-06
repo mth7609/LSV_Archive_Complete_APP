@@ -1,6 +1,6 @@
 import { requestAllDatasetNumbers, requestStates, requestTopHeadlines, requestTopicHeadlines, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js"; import { globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
 import { checkTab, checkForDataset, doFetch, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
-import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus6, setStatus1 } from "./RendererScripts_03.js";
+import { setStatusWarning, readSearchCriteria, setStatus3, setStatus6, setStatus1 } from "./RendererScripts_03.js";
 import { log } from "./RendererLog.js";
 
 var selectedDropdown = 0;
@@ -9,7 +9,7 @@ var lastTopicName = "null";
 localStorage.setItem("tabCount", 0);
 let datasetTopItems;
 let datasetTopicsItems;
-
+let searchCriteria;
 
 setStatus1("Checking...");
 
@@ -92,6 +92,7 @@ function setOthersFromMain() {
     $(".freeLabel").on('click', publisherFree);
     $(".topicListButtonInput").on('click', topicListButtonClick);
     $(".topicListLabel").on('click', topicListLabelClick);
+    $(".doButtonDatasetSearch").on('click', readSearchCriteria);
     $(".name").on('focus', setFormToSearch);
     $(".schoolLabel").on('focus', setFormToSearch);
     $(".city").on('focus', setFormToSearch);
@@ -106,6 +107,7 @@ function setOthersFromMain() {
     setToLastDatasetUsed();
     publisherReset();
     $("title").text(localStorage.getItem("title"));
+
     window.electronAPI.getDbStatus((value) => {
         showDBStatus(value);
     })
@@ -113,6 +115,7 @@ function setOthersFromMain() {
 
 $(".headlinesTop").on('keydown', doKeydown);
 $(".formTop").on('keydown', doKeydown);
+$(".formTop").attr("autocomplete", "none");
 $("body").on('keydown', doKeydown);
 
 // buttons for model dialogs
@@ -132,7 +135,7 @@ export function setToLastDatasetUsed() {
         setTimeout(() => {
             $(".dsNumber").val(ld);
             $(".doButtonFetch").click();
-        }, 1000);
+        }, 500);
     }
 }
 
@@ -163,9 +166,11 @@ window.electronAPI.getInitData((value) => {
     localStorage.setItem("initMysqlPassword", value["mysqlPassword"]);
     localStorage.setItem("initMysqlDatabase", value["mysqlDatabase"]);
     localStorage.setItem("maxSearchTabs", value["maxSearchTabs"]);
+    localStorage.setItem("maxSearchCriteria", value["maxSearchCriteria"]);
     localStorage.setItem("initDate", value["initDate"]);
     localStorage.setItem("tabCount", 0);
     localStorage.setItem("selectCnt", 1);
+    localStorage.setItem("searchCnt", 1);
     localStorage.setItem("keyLast", 0);
     localStorage.setItem("topFormElementActive", -1);
     localStorage.setItem("searchMode", "false");
@@ -173,6 +178,7 @@ window.electronAPI.getInitData((value) => {
     //log("maxTabs; " + localStorage.getItem("maxSearchTabs"));
     datasetTopItems = Array.from({ length: localStorage.getItem("maxSearchTabs") + 1 }, () => new Array(elementsOnForm).fill(0));
     datasetTopicsItems = Array.from({ length: localStorage.getItem("maxSearchTabs") + 1 }, () => new Array(elementsOnForm).fill(0));
+    searchCriteria = new Array(elementsOnForm).fill(0);
 })
 
 

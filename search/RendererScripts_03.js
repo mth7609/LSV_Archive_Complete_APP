@@ -1,4 +1,4 @@
-import { globalDataset } from "./Globals.js";
+import { globalDataset, globalSearchCriteria, globalTopicHeadlines, globalTopicItems } from "./Globals.js";
 import { log } from "./RendererLog.js";
 
 // for modal window save
@@ -180,4 +180,36 @@ export function checkAdmin() {
         return true;
     else
         return false
+}
+
+
+export function readSearchCriteria() {
+    if ($(".doButtonDatasetSearch").hasClass('disabled'))
+        return;
+
+    $(".doButtonDatasetSearch").trigger("blur");
+
+    globalSearchCriteria[0][0] = $('.name').val();        // Save top item values in the top-item dataset array (not local storage)
+    globalSearchCriteria[0][1] = $('.schoolPublisher').val();
+    globalSearchCriteria[0][2] = $('.city').val();
+    globalSearchCriteria[0][3] = $(".dropdownState").text();
+    globalSearchCriteria[0][4] = localStorage.getItem("publisherIsOutput");
+    globalSearchCriteria[0][5] = $(".dropdownYear").text();
+    globalSearchCriteria[0][6] = $('.publishNo').val();
+    globalSearchCriteria[0][7] = $('.comment').val();
+
+    let i = 0, n = 0, itemCnt = 8;
+
+    for (n = 0; n < globalTopicHeadlines.content.length; n++) {        // Save selected topics in the topics dataset array
+        for (i = 0; i < globalTopicItems[n].contentValue.length; i++) {
+            if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
+                globalSearchCriteria[0][itemCnt] = "topic_" + n + "_" + i;
+                itemCnt++;
+            }
+        }
+    }
+
+    for (i = 0; i < n; i++) {
+        log("i: " + i + "   " + globalSearchCriteria[0][i]);
+    }
 }
